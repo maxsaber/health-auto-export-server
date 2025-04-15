@@ -132,23 +132,4 @@ export enum MetricName {
   NUMBER_OF_TIME_FALLEN = 'number_of_time_fallen',
   NUMBER_OF_ALCOHOLIC_BEVERAGES = 'number_of_alcoholic_beverages',
   TOOTHBRUSHING = 'toothbrushing',
-
-  // TrainingPeaks
-  HEART_RATE_AVERAGE = 'HeartRateAverage',
-  HEART_RATE_MAX = 'HeartRateMax',
-  TSS_SCORE = 'TSS',
-  hrTSS_SCORE = 'hrTSS',
-  RPE_SCORE = 'Rpe',
-  FEELING = 'Feeling',
-  INTENSITY_FACTOR = 'IntensityFactor',
-  DIST_IN_METERS = 'DistanceInMeters',
-  TIME_TOTAL_IN_HOURS  = 'TimeTotalInHours',
-  // Add these if zone minutes will be used
-  HRZone1Minutes = 'HRZone1Minutes',
-  HRZone2Minutes = 'HRZone2Minutes',
-  HRZone3Minutes = 'HRZone3Minutes',
-  HRZone4Minutes = 'HRZone4Minutes',
-  HRZone5Minutes = 'HRZone5Minutes',
-  HRZone6Minutes = 'HRZone6Minutes',
-  HRZone7Minutes = 'HRZone7Minutes',
 }
