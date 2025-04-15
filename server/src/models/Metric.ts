@@ -187,3 +187,55 @@ export const SleepModel = mongoose.model<ISleepMetric>(
   SleepSchema,
   'sleep_analysis',
 );
+export const parseTrainingPeaks = (entry: any): Metric[] => {
+  if (!entry || typeof entry !== 'object') {
+    throw new Error(`[parseTrainingPeaks] Invalid entry: ${JSON.stringify(entry)}`);
+  }
+
+  const dateStr = entry.WorkoutDayISO || entry.WorkoutDay;
+  const date = dateStr ? new Date(dateStr) : new Date(); // Default to today if invalid
+
+  const metrics: Metric[] = [];
+
+  const simpleFields: { key: string; unit?: string }[] = [
+    { key: 'HeartRateAverage', unit: 'bpm' },
+    { key: 'HeartRateMax', unit: 'bpm' },
+    { key: 'TSS' },
+    { key: 'hrTSS' },
+    { key: 'Rpe' },
+    { key: 'Feeling' },
+    { key: 'IntensityFactor' },
+    { key: 'DistanceInMeters', unit: 'm' },
+    { key: 'TimeTotalInHours', unit: 'h' },
+  ];
+
+  // Map simple fields
+  for (const { key, unit } of simpleFields) {
+    const value = parseFloat(entry[key]);
+    if (!isNaN(value)) {
+      metrics.push({
+        qty: value, // Maps to BaseMetric.qty
+        units: unit || '', // Maps to BaseMetric.units
+        date,
+        source: 'TrainingPeaks', // Adds source as required by Metric
+      });
+    }
+  }
+
+  // Map HR zones
+  const HR_ZONE_COUNT = 7;
+  for (let i = 1; i <= HR_ZONE_COUNT; i++) {
+    const zoneKey = `HRZone${i}Minutes`;
+    const value = parseInt(entry[zoneKey], 10);
+    if (!isNaN(value)) {
+      metrics.push({
+        qty: value, // Maps to BaseMetric.qty
+        units: 'min', // HR zones are measured in minutes
+        date,
+        source: 'TrainingPeaks', // Adds source as required by Metric
+      });
+    }
+  }
+
+  return metrics;
+};
