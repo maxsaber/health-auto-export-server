@@ -2,6 +2,7 @@ import cors from 'cors';
 import express from 'express';
 
 import mongodb from './database/mongodb';
+import customRouter from './routes/custom';
 import ingesterRouter from './routes/ingester';
 import metricsRouter from './routes/metrics';
 import workoutsRouter from './routes/workouts';
@@ -25,6 +26,7 @@ app.use(express.urlencoded({ limit: '200mb', extended: true }));
 app.use('/api/data', ingesterRouter);
 app.use('/api/metrics', metricsRouter);
 app.use('/api/workouts', workoutsRouter);
+app.use('/api/custom', customRouter);
 
 app.get('/', (req: express.Request, res: express.Response) => {
   res.json({ message: 'Hello world!' });
